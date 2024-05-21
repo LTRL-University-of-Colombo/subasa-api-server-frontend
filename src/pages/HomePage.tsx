@@ -11,10 +11,14 @@ const HomePage = () => {
 
             <div id="hero" className="w-100 d-flex justify-content-center">
                 <div className="container row h-100">
-                    <div className="col d-flex align-items-center justify-content-center">Subasa image</div>
+                    <div className="col d-flex align-items-center justify-content-center">
+                        <img src="src/assets/subasa_logo.png" alt="" />
+                    </div>
                     <div className="col d-flex flex-column align-items-center justify-content-center text-light">
-                        <h3>Welcome to</h3>
-                        <h1>SUBASA</h1>
+                        <div>
+                            <div style={{ fontSize: "3rem" }}>Welcome to</div>
+                            <div style={{ fontSize: "6rem" }}>SUBASA</div>
+                        </div>
                     </div>
                     {/* <img src="src/assets/homepage_cover.png" alt="cover image" /> */}
                 </div>
