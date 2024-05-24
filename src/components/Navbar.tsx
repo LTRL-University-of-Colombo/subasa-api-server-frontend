@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom"
 import { useState, useEffect } from "react"
+import { Link } from 'react-scroll'
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -19,14 +19,13 @@ const Navbar = () => {
 
     return (
         <>
-            <nav style={{ height: "90px", width: "100vw", position: "fixed", zIndex: "100" }} className={`d-flex align-items-center justify-content-between px-5 ${isScrolled ? 'bg-white' : ''}`}>
+            <nav style={{ height: "90px", width: "100vw", position: "fixed", zIndex: "100" }} className={`d-flex align-items-center justify-content-between px-5 ${isScrolled ? 'bg-white border-bottom' : ''}`}>
                 <div className="d-flex align-items-center">
-                    <div><img src={`src/assets/${isScrolled ? 'subasa_new_black.png' : 'subasa_new_white.png'}`} className="px-4" alt="" style={{ height: "60px"}} /></div>
-                    <div>
-                        <NavLink className="px-4" to={"/"}>Link 1</NavLink>
-                        <NavLink className="px-4" to={"/"}>Link 1</NavLink>
-                        <NavLink className="px-4" to={"/"}>Link 1</NavLink>
-                        <NavLink className="px-4" to={"/"}>Link 1</NavLink>
+                    <div><img src={`src/assets/${isScrolled ? 'subasa_new_black.png' : 'subasa_new_white.png'}`} className="px-4" alt="" style={{ height: "60px" }} /></div>
+                    <div className="d-flex gap-5">
+                        <Link to="section_1-heading" offset={-80} role="button" className="text-primary" smooth>Scroll link</Link>
+                        <Link to="section_2-heading" offset={-80} role="button" className="text-primary" smooth>Scroll link</Link>
+                        <Link to="section_3-heading" offset={-80} role="button" className="text-primary" smooth>Scroll link</Link>
                     </div>
                 </div>
                 <div className="d-flex align-items-center gap-3">

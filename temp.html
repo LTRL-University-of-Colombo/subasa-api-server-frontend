@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="el">this is the element</div>
+    <div style="height: 1400px;">this is the element</div>
+</body>
+
+<script>
+    const docBody = document.body
+    document.addEventListener('scroll', () => {
+        const elem = document.getElementById("el")
+        // console.log("Scroll left: ", elem.scrollLeft)
+        console.log("Scroll top: ", docBody.scrollTop)
+    })
+</script>
+
+</html>

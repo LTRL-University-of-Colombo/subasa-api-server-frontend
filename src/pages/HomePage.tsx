@@ -24,7 +24,7 @@ const HomePage = () => {
                 </div>
             </div>
 
-            <MainPageSection sectionHeading="Section 1 heading">
+            <MainPageSection sectionHeading="Section 1 heading" id="section_1">
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
@@ -35,7 +35,7 @@ const HomePage = () => {
                 <div className="col-4"><ApiCard /></div>
             </MainPageSection>
 
-            <MainPageSection sectionHeading="Section 2 heading">
+            <MainPageSection sectionHeading="Section 2 heading" id="section_2">
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
@@ -46,7 +46,7 @@ const HomePage = () => {
                 <div className="col-4"><ApiCard /></div>
             </MainPageSection>
 
-            <MainPageSection sectionHeading="Section 3 heading">
+            <MainPageSection sectionHeading="Section 3 heading" id="section_3">
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
