@@ -1,6 +1,14 @@
+// import { useEffect } from 'react'
 import MinimulNavbar from '../components/MinimulNavbar'
 
 const ApiInfoPage = () => {
+    // useEffect(() => {
+    //     const rightSection = document.getElementById("right-section")
+    //     rightSection?.addEventListener("scroll", () => {
+            
+    //     })
+    // }, [])
+
     return (
         <>
             <MinimulNavbar />
@@ -26,7 +34,8 @@ const ApiInfoPage = () => {
                     <div className='col border border-start-0 px-4 overflowY-auto apiInfoPage-height' id='right-section'>
                         <section className='pt-4'>
                             <h2>SUBASA Text to Speech - STT</h2>
-                            <p>You can test subasa STT. Visit <a href="">stt.subasa.lk↗</a></p>
+                            <p>You can test subasa STT. Visit <a href="http://stt.subasa.lk">stt.subasa.lk↗</a></p>
+                            <button className='btn btn-primary btn-sm'>Apply for access</button>
                         </section>
                         <section className='pt-4'>
                             <h3>Subasa STT API</h3>
