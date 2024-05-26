@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 const HamburgerMenu = () => {
     const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false)
@@ -8,22 +9,17 @@ const HamburgerMenu = () => {
         isHamburgerMenuOpen ? setIsHamburgerMenuOpen(false) : setIsHamburgerMenuOpen(true)
     }
 
-    document.addEventListener('click', (event: MouseEvent) => {
-        const hamburgerElement = document.getElementById("hamburger-menu")
-        const hamburgerTogglerElement = document.getElementById("hamburger-menu-toggler")
-
-        if (!hamburgerElement || !hamburgerTogglerElement) {
-            console.error('Hamburger menu elements not found');
-            return;
-        }
-
-        if (event.target == hamburgerTogglerElement) {
-            return
-        }
-        setIsHamburgerMenuOpen((event.target instanceof Node && hamburgerElement?.contains(event.target)) ? true : false)
-    })
-
     useEffect(() => {
+        document.addEventListener('click', (event: MouseEvent) => {
+            const hamburgerElement = document.getElementById("hamburger-menu")
+            const hamburgerTogglerElement = document.getElementById("hamburger-menu-toggler")
+
+            if (event.target == hamburgerTogglerElement) {
+                return
+            }
+            setIsHamburgerMenuOpen((event.target instanceof Node && hamburgerElement?.contains(event.target)) ? true : false)
+        })
+
         setIsHamburgerMenuOpen(false)
     }, [])
 
@@ -40,9 +36,8 @@ const HamburgerMenu = () => {
                 style={{ position: "absolute", top: "45px", right: "4px", width: "200px", height: "300px" }}
                 id="hamburger-menu"
             >
-                <button className="btn btn-light" type="button">Action</button>
-                <button className="btn btn-light" type="button">Another action</button>
-                <button className="btn btn-light" type="button">Something else here</button>
+                <Link className="btn btn-light" role="button" to={"/change-password"}>Change Password</Link>
+                <Link className="btn btn-light" role="button" to={"/logout"}>Log Out</Link>
             </div>
         </div>
     )

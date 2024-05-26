@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 const ApiCard = () => {
     return (
         <>
@@ -7,7 +9,7 @@ const ApiCard = () => {
                     <img src="src/assets/homepage_cover.png" className="card-img" alt="..." />
                     <div className="mt-3"><small className="card-text">With supporting text below as a natural lead-in to additional content.</small></div>
                     <div className="d-grid mt-3" >
-                        <button className="btn btn-primary btn-sm" type="button">Read More</button>
+                        <Link className="btn btn-primary btn-sm" to={"/api"} type="button">Read More</Link>
                     </div>
                 </div>
             </div>

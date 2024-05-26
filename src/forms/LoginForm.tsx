@@ -1,7 +1,25 @@
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup'
+import { LoginPayload } from '../Api/Interfaces';
+import { userLogin } from '../Api/ApiUser';
+import { AxiosError } from 'axios';
+import { useState } from 'react';
 
 const LoginForm = () => {
+    const [loginErrorMessage, setLoginErrorMessage] = useState('')
+    const handleLogin = async (values: LoginPayload) => {
+        try {
+            await userLogin(values)
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                setLoginErrorMessage(error.message)
+                console.error(error.message)
+            } else {
+                setLoginErrorMessage("Unknown error occured!")
+            }
+        }
+    }
+
     const loginFormValidationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email').required('Required'),
         password: Yup.string().required('Required')
@@ -16,12 +34,14 @@ const LoginForm = () => {
                 }}
                 validationSchema={loginFormValidationSchema}
                 onSubmit={values => {
-                    console.log(values);
+                    handleLogin(values);
                 }}
             >
                 {({ errors, touched }) => (
                     <Form className="card p-4" style={{ width: "300px" }}>
                         {/* <h2>Login</h2> */}
+                        {loginErrorMessage ? <small className="alert alert-danger d-flex align-items-center" role="alert">{loginErrorMessage}</small> : <></>}
+
                         <div className="btn btn-outline-dark btn-sm d-flex align-items-center justify-content-center gap-2">
                             <img src="src/assets/google_logo.png" alt="" style={{ height: "30px" }} />
                             Continue with Google

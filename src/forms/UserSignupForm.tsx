@@ -6,8 +6,8 @@ const UserSignupForm = () => {
         firstName: yup.string().required('Required'),
         lastName: yup.string().required('Required'),
         email: yup.string().email('Invalid email').required('Required'),
-        password: yup.string().required('Required'),
-        password2: yup.string().required('Required'),
+        password: yup.string().required('Required').min(8, 'At least 8 characters required.'),
+        password2: yup.string().required('Required').min(8, 'At least 8 characters required.').oneOf([yup.ref('password')], 'Passwords must match'),
     })
 
     return (
@@ -43,7 +43,7 @@ const UserSignupForm = () => {
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Email</label>
-                            <Field className="form-control" id="email" name="email"/>
+                            <Field className="form-control" id="email" name="email" />
                             {touched.email && errors.email && <div id="email-error" className="form-text text-danger">{errors.email}</div>}
                         </div>
                         <div className="row">

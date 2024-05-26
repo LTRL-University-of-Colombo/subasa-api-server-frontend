@@ -11,8 +11,26 @@ import UserSignupForm from './forms/UserSignupForm.tsx';
 import OrgSingupForm from './forms/OrgSingupForm.tsx';
 import UserServices from './pages/UserServices.tsx';
 import ChangePasswordPage from './pages/ChangePasswordPage.tsx';
+import PrivateAuthProvider from './Auth/PrivateAuthProvider.tsx';
 
 const router = createBrowserRouter([
+    {
+        element: <PrivateAuthProvider />,
+        children: [
+            {
+                path: "/api",
+                element: <ApiInfoPage />
+            },
+            {
+                path: "/services",
+                element: <UserServices />
+            },
+            {
+                path: "/change-password",
+                element: <ChangePasswordPage />
+            }
+        ]
+    },
     {
         path: "/",
         element: <HomePage />
@@ -36,18 +54,6 @@ const router = createBrowserRouter([
             }
         ]
     },
-    {
-        path: "/api",
-        element: <ApiInfoPage />
-    },
-    {
-        path: "/services",
-        element: <UserServices />
-    },
-    {
-        path: "/change-password",
-        element: <ChangePasswordPage />
-    }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

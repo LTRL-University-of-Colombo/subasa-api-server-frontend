@@ -5,8 +5,8 @@ const OrgSingupForm = () => {
     const userSingupFormValidationSchema = yup.object().shape({
         orgName: yup.string().required('Required'),
         email: yup.string().email('Invalid email').required('Required'),
-        password: yup.string().required('Required'),
-        password2: yup.string().required('Required'),
+        password: yup.string().required('Required').min(8, 'At least 8 characters required.'),
+        password2: yup.string().required('Required').min(8, 'At least 8 characters required.').oneOf([yup.ref('password')], 'Passwords must match'),
     })
 
     return (

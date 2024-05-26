@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
 import { Link } from 'react-scroll'
 import HamburgerMenu from "./HamburgerMenu"
+import { useAuth } from "../Auth/Auth"
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false)
+    const [isLogged, setIsLogged] = useState(false)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -15,6 +17,10 @@ const Navbar = () => {
             }
         }
         document.addEventListener("scroll", handleScroll)
+
+        // authentication
+        const loggingState = useAuth()
+        setIsLogged(loggingState)
     }, [])
 
     return (
@@ -29,7 +35,7 @@ const Navbar = () => {
                     </div>
                 </div>
                 {/* //import hamburger here */}
-                <HamburgerMenu />
+                {isLogged ? <HamburgerMenu /> : <Link className="btn btn-primary" to="/login" role="button">sign in</Link>}
             </nav>
         </>
     )
