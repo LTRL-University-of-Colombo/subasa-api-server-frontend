@@ -1,4 +1,5 @@
 import ApiCard from "../components/ApiCard"
+import Footer from "../components/Footer"
 import MainPageSection from "../components/MainPageSection"
 import Navbar from "../components/Navbar"
 
@@ -56,6 +57,8 @@ const HomePage = () => {
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
             </MainPageSection>
+
+            <Footer />
         </>
     )
 }

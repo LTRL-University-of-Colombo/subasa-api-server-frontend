@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from './pages/HomePage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import SignUpPage from './pages/SignUpPage.tsx';
+import ApiInfoPage from './pages/ApiInfoPage.tsx';
 
 const router = createBrowserRouter([
     {
@@ -19,7 +20,11 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <SignUpPage />
-    }
+    },
+    {
+        path: "/api",
+        element: <ApiInfoPage />
+    },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

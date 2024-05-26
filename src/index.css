@@ -1,3 +1,7 @@
+:root {
+    --navbar-height: 64px;
+}
+
 a {
     text-decoration: none;
 }
@@ -8,6 +12,20 @@ a {
     background-repeat: "no-repeat";
 }
 
-.api-card{
+.api-card {
     height: 80px;
+}
+
+.footer {
+    /* height: 300px; */
+    color: white;
+    margin-top: 3rem;
+}
+
+.overflowY-auto {
+    overflow-y: auto;
+}
+
+.apiInfoPage-height {
+    height: calc(100vh - var(--navbar-height));
 }
