@@ -1,5 +1,4 @@
 import MinimulNavbar from '../components/MinimulNavbar'
-import MainPageSection from '../components/MainPageSection'
 import PurchasedApiCard from '../components/PurchasedApiCard'
 
 const UserServices = () => {
