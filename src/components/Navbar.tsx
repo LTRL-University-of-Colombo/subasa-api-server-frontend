@@ -3,9 +3,11 @@ import { Link } from 'react-scroll'
 import HamburgerMenu from "./HamburgerMenu"
 import { useAuth } from "../Auth/Auth"
 
-const Navbar = () => {
+const Navbar = async () => {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isLogged, setIsLogged] = useState(false)
+
+    const loggingState = await useAuth()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -19,7 +21,6 @@ const Navbar = () => {
         document.addEventListener("scroll", handleScroll)
 
         // authentication
-        const loggingState = useAuth()
         setIsLogged(loggingState)
     }, [])
 

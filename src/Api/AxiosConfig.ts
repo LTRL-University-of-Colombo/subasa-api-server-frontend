@@ -1,15 +1,16 @@
 import axios from 'axios';
+import { getStoredToken } from '../Auth/Auth';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-    baseURL: 'https://your-api-base-url.com',
+    baseURL: 'http://localhost:8000',
 });
 
 // Request interceptor to add the token to headers
 axiosInstance.interceptors.request.use(
     config => {
-        const token = localStorage.getItem('token');
-        if (token) {
+        const token = getStoredToken()
+        if (token !== undefined) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
         return config;

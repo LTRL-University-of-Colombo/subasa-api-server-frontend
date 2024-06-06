@@ -2,18 +2,23 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup'
 import { LoginPayload } from '../Api/Interfaces';
 import { userLogin } from '../Api/ApiUser';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+    const navigate = useNavigate()
+
     const [loginErrorMessage, setLoginErrorMessage] = useState('')
     const handleLogin = async (values: LoginPayload) => {
         try {
-            await userLogin(values)
+            const response: AxiosResponse = await userLogin(values)
+            if (response.status == 200) {
+                navigate("/")
+            }
         } catch (error) {
             if (error instanceof AxiosError) {
                 setLoginErrorMessage(error.message)
-                console.error(error.message)
             } else {
                 setLoginErrorMessage("Unknown error occured!")
             }

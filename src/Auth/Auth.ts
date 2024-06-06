@@ -1,11 +1,39 @@
-export const useAuth = () => {
+import Cookies from "js-cookie"
+import { isValidToken } from "../Api/ApiAuth"
+
+export interface SpliToken {
+    payload: string
+    signature: string
+}
+
+export const splitToken = (token: string): SpliToken => {
+    const split_token = token.split('.')
+    const token_payload = split_token[0] + '.' + split_token[1]
+    const token_signature = split_token[2]
+    return { payload: token_payload, signature: token_signature }
+}
+
+export const getStoredToken = (): string => {
+    const token_payload = localStorage.getItem("token_payload") ? localStorage.getItem("token_payload") : ""
+    const token_signature = Cookies.get("token_signature") ? Cookies.get("token_signature") : ""
+    const token = token_payload + '.' + token_signature
+    return token
+}
+
+export const isStoredToken = () => {
+    const token_payload = localStorage.getItem("token_payload") ? localStorage.getItem("token_payload") : ""
+    const token_signature = Cookies.get("token_signature") ? Cookies.get("token_signature") : ""
+    if (token_payload == "" || token_signature == "")
+        return false
+    return true
+}
+
+export const useAuth = async () => {
     // const user = localStorage.getItem("Token")
-    const userToken = 'sssssssssssssssssssssnR5cCssssssssss.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-    const arrayToken = userToken.split('.');
-    if (userToken) {
-        const tokenPayload = JSON.parse(atob(arrayToken[1]));
-        console.log(tokenPayload)
-        return true
+    if (isStoredToken()) {
+        const token = getStoredToken()
+        const validToken = await isValidToken(token)
+        return validToken ? true : false
     }
     else {
         return false
