@@ -31,8 +31,8 @@ export const isStoredToken = () => {
 export const useAuth = async () => {
     // const user = localStorage.getItem("Token")
     if (isStoredToken()) {
-        const token = getStoredToken()
-        const validToken = await isValidToken(token)
+        // const token = getStoredToken()
+        const validToken = await isValidToken()
         return validToken ? true : false
     }
     else {

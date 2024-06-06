@@ -17,8 +17,8 @@ const LoginForm = () => {
                 navigate("/")
             }
         } catch (error) {
-            if (error instanceof AxiosError) {
-                setLoginErrorMessage(error.message)
+            if (error instanceof AxiosError && error.response) {
+                setLoginErrorMessage(error.response.status == 400 ? "Invalid user name or password." : "Unknown error occured!")
             } else {
                 setLoginErrorMessage("Unknown error occured!")
             }
