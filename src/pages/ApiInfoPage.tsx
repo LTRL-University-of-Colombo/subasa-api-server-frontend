@@ -1,16 +1,47 @@
 // import { useEffect } from 'react'
 import MinimulNavbar from '../components/MinimulNavbar'
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { getServiceByServiceId } from '../Api/ApiService'
+import { ApiServiceData } from '../Api/Interfaces'
+import FloatingCard from '../components/FloatingCard'
 
 const ApiInfoPage = () => {
-    // useEffect(() => {
-    //     const rightSection = document.getElementById("right-section")
-    //     rightSection?.addEventListener("scroll", () => {
-            
-    //     })
-    // }, [])
+    const params = useParams()
+    const apiId = Number(params.id)
+    const [temp, settemp] = useState(true)
+    if (isNaN(apiId)) {
+        throw new Error("Invalid ID")
+    }
+
+    const [isService, setIsService] = useState<boolean>(true)
+    const [serviceInfo, setServiceInfo] = useState<ApiServiceData>({} as ApiServiceData)
+
+    useEffect(() => {
+        // const rightSection = document.getElementById("right-section")
+        // rightSection?.addEventListener("scroll", () => {
+
+        // })
+        const loadApiserviceData = async (id: number) => {
+            const service = await getServiceByServiceId(id)
+            if (!service) {
+                setIsService(false)
+            }
+            else {
+                setIsService(true)
+                setServiceInfo(service)
+            }
+        }
+        loadApiserviceData(apiId)
+        console.log("is service: ", isService)
+        console.log("service info: ", serviceInfo.description)
+
+    }, [])
 
     return (
         <>
+            <FloatingCard hidden={temp} />
+            <button onClick={() => { settemp(!temp) }}>dist</button>
             <MinimulNavbar />
             <div className='container'>
                 <div className="row">
@@ -33,8 +64,8 @@ const ApiInfoPage = () => {
 
                     <div className='col border border-start-0 px-4 overflowY-auto apiInfoPage-height' id='right-section'>
                         <section className='pt-4'>
-                            <h2>SUBASA Text to Speech - STT</h2>
-                            <p>You can test subasa STT. Visit <a href="http://stt.subasa.lk">stt.subasa.lk↗</a></p>
+                            <h2>{serviceInfo.name}</h2>
+                            <p>You can test subasa {serviceInfo.name}. Visit <a href="http://stt.subasa.lk">stt.subasa.lk↗</a></p>
                             <button className='btn btn-primary btn-sm'>Apply for access</button>
                         </section>
                         <section className='pt-4'>

@@ -29,3 +29,24 @@ a {
 .apiInfoPage-height {
     height: calc(100vh - var(--navbar-height));
 }
+
+.close-button {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    color: black;
+    border-radius: 50%;
+    top: 6px;
+    right: 9px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.close-button:hover{
+    /* color: white; */
+    background-color: rgba(0,0,0,0.3);
+    cursor: pointer;
+}
