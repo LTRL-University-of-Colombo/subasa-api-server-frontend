@@ -1,10 +1,22 @@
+import { useEffect, useState } from "react"
 import ApiCard from "../components/ApiCard"
 import Footer from "../components/Footer"
 import MainPageSection from "../components/MainPageSection"
 import Navbar from "../components/Navbar"
+import { getAllServices } from "../Api/ApiService"
+import { ApiServiceData } from "../Api/Interfaces"
 
 const HomePage = () => {
+    const [apiServices, setApiServices] = useState<ApiServiceData[]>([])
 
+    useEffect(() => {
+        const fetchApiServices = async () => {
+            const services = await getAllServices()
+            if (services)
+                setApiServices(services)
+        }
+        fetchApiServices()
+    }, [])
 
     return (
         <>
@@ -26,17 +38,12 @@ const HomePage = () => {
             </div>
 
             <MainPageSection sectionHeading="Section 1 heading" id="section_1">
-                <div className="col-4"><ApiCard /></div>
-                <div className="col-4"><ApiCard /></div>
-                <div className="col-4"><ApiCard /></div>
-                <div className="col-4"><ApiCard /></div>
-                <div className="col-4"><ApiCard /></div>
-                <div className="col-4"><ApiCard /></div>
-                <div className="col-4"><ApiCard /></div>
-                <div className="col-4"><ApiCard /></div>
+                {apiServices.map((service: ApiServiceData) => (
+                    <div className="col-4"><ApiCard serviceData={service} /></div>
+                ))}
             </MainPageSection>
 
-            <MainPageSection sectionHeading="Section 2 heading" id="section_2">
+            {/* <MainPageSection sectionHeading="Section 2 heading" id="section_2">
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
@@ -56,7 +63,7 @@ const HomePage = () => {
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
                 <div className="col-4"><ApiCard /></div>
-            </MainPageSection>
+            </MainPageSection> */}
 
             <Footer />
         </>

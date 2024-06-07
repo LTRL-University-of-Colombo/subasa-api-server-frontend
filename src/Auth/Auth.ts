@@ -21,7 +21,7 @@ export const getStoredToken = (): string => {
     return token
 }
 
-export const isStoredToken = () => {
+export const isStoredToken = (): boolean => {
     const token_payload = localStorage.getItem("token_payload") ? localStorage.getItem("token_payload") : ""
     const token_signature = Cookies.get("token_signature") ? Cookies.get("token_signature") : ""
     if (token_payload == "" || token_signature == "")
@@ -29,21 +29,33 @@ export const isStoredToken = () => {
     return true
 }
 
-export const saveUserInfoLocalstorage = (userData: LoggedUserInfo) => {
-    localStorage.setItem("id", `${userData?.id}`)
-    localStorage.setItem("username", userData?.username)
-    localStorage.setItem("email", userData?.email)
+export const saveUserInfoLocalstorage = (userData: LoggedUserInfo): boolean => {
+    try {
+        localStorage.setItem("id", `${userData?.id}`)
+        localStorage.setItem("username", userData?.username)
+        localStorage.setItem("email", userData?.email)
+        return true
+    } catch (error) {
+        console.log("Failed to save userdata to local storage.")
+        return false
+    }
+
 }
 
-export const getSavedUserInfoFromLocalstorage = (): LoggedUserInfo => {
-    return {
-        id: Number(localStorage.getItem("id") ?? 0),
-        username: localStorage.getItem("username") ?? "",
-        email: localStorage.getItem("email") ?? ""
+export const getSavedUserInfoFromLocalstorage = (): LoggedUserInfo | null => {
+    try {
+        return {
+            id: Number(localStorage.getItem("id") ?? 0),
+            username: localStorage.getItem("username") ?? "",
+            email: localStorage.getItem("email") ?? ""
+        }
+    } catch (error) {
+        console.log("Failed to retriew data from local storage.")
+        return null
     }
 }
 
-export const useAuth = async () => {
+export const useAuth = async (): Promise<boolean> => {
     // const user = localStorage.getItem("Token")
     if (isStoredToken()) {
         const validToken = await isValidToken()

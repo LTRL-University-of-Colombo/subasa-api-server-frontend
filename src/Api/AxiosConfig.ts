@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
 );
 
 // handle token expiration
-const handleTokenExpiration = () => {
+const handleTokenExpiration = (): void => {
     console.log('Token expired. Redirecting to login...')
     localStorage.removeItem('token')
     window.location.href = '/login'

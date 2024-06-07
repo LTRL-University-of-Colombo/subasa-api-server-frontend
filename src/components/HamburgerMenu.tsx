@@ -28,7 +28,8 @@ const HamburgerMenu = () => {
         })
 
         const loggedUserInfo = getSavedUserInfoFromLocalstorage()
-        setSavedUserInfo(loggedUserInfo)
+        if (loggedUserInfo)
+            setSavedUserInfo(loggedUserInfo)
 
         setIsHamburgerMenuOpen(false)
     }, [])

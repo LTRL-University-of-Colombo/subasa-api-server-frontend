@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom"
+import { ApiServiceData } from "../Api/Interfaces"
 
-const ApiCard = () => {
+interface Props {
+    serviceData: ApiServiceData
+}
+
+const ApiCard = ({serviceData}: Props) => {
     return (
         <>
             <div className="card">
-                <h5 className="card-header">Special title treatment</h5>
+                <h5 className="card-header">{serviceData.name}</h5>
                 <div className="card-body">
                     <img src="src/assets/homepage_cover.png" className="card-img" alt="..." />
-                    <div className="mt-3"><small className="card-text">With supporting text below as a natural lead-in to additional content.</small></div>
+                    <div className="mt-3"><small className="card-text">{serviceData.description}</small></div>
                     <div className="d-grid mt-3" >
                         <Link className="btn btn-primary btn-sm" to={"/api"} type="button">Read More</Link>
                     </div>
