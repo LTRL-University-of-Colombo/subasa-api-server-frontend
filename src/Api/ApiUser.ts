@@ -1,7 +1,8 @@
 import axiosInstance from "./AxiosConfig"
 import Cookies from 'js-cookie'
 import { LoginPayload } from "./Interfaces"
-import { splitToken } from "../Auth/Auth"
+import { saveUserInfoLocalstorage, splitToken } from "../Auth/Auth"
+import { getLoggedUserInfo } from "./ApiAuth"
 
 
 // user login
@@ -31,6 +32,11 @@ export const userLogin = async ({ email, password }: LoginPayload) => {
         localStorage.setItem("token_payload", split_token.payload);
         Cookies.set("token_signature", split_token.signature)
         // Cookies.set("refreshToken", response.data.refreshToken, { expires: 1 });
+
+        const userData = await getLoggedUserInfo()
+        if (userData) {
+            saveUserInfoLocalstorage(userData)
+        }
     }
     return response
 }

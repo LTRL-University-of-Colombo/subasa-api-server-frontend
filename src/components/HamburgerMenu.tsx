@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { getSavedUserInfoFromLocalstorage } from "../Auth/Auth"
+import { LoggedUserInfo } from "../Api/Interfaces"
 
 const HamburgerMenu = () => {
     const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false)
+    const [savedUserInfo, setSavedUserInfo] = useState<LoggedUserInfo>({
+        id: 0,
+        username: "",
+        email: ""
+    })
 
     const toggleHamburgerMenu = () => {
         console.log("toggle called: ", isHamburgerMenuOpen)
@@ -20,6 +27,9 @@ const HamburgerMenu = () => {
             setIsHamburgerMenuOpen((event.target instanceof Node && hamburgerElement?.contains(event.target)) ? true : false)
         })
 
+        const loggedUserInfo = getSavedUserInfoFromLocalstorage()
+        setSavedUserInfo(loggedUserInfo)
+
         setIsHamburgerMenuOpen(false)
     }, [])
 
@@ -36,6 +46,7 @@ const HamburgerMenu = () => {
                 style={{ position: "absolute", top: "45px", right: "4px", width: "200px", height: "300px" }}
                 id="hamburger-menu"
             >
+                <h6>Hi {savedUserInfo.username}</h6>
                 <Link className="btn btn-light" role="button" to={"/change-password"}>Change Password</Link>
                 <Link className="btn btn-light" role="button" to={"/logout"}>Log Out</Link>
             </div>

@@ -1,5 +1,6 @@
 import Cookies from "js-cookie"
-import { isValidToken } from "../Api/ApiAuth"
+import { getLoggedUserInfo, isValidToken } from "../Api/ApiAuth"
+import { LoggedUserInfo } from "../Api/Interfaces"
 
 export interface SpliToken {
     payload: string
@@ -28,11 +29,28 @@ export const isStoredToken = () => {
     return true
 }
 
+export const saveUserInfoLocalstorage = (userData: LoggedUserInfo) => {
+    localStorage.setItem("id", `${userData?.id}`)
+    localStorage.setItem("username", userData?.username)
+    localStorage.setItem("email", userData?.email)
+}
+
+export const getSavedUserInfoFromLocalstorage = (): LoggedUserInfo => {
+    return {
+        id: Number(localStorage.getItem("id") ?? 0),
+        username: localStorage.getItem("username") ?? "",
+        email: localStorage.getItem("email") ?? ""
+    }
+}
+
 export const useAuth = async () => {
     // const user = localStorage.getItem("Token")
     if (isStoredToken()) {
-        // const token = getStoredToken()
         const validToken = await isValidToken()
+
+        const currentUser = await getLoggedUserInfo()
+        if (currentUser)
+            saveUserInfoLocalstorage(currentUser)
         return validToken ? true : false
     }
     else {
