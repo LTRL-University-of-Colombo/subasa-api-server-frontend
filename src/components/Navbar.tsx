@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { Link } from 'react-scroll'
+import { Link as RouterLink } from "react-router-dom"
 import HamburgerMenu from "./HamburgerMenu"
 import { useAuth } from "../Auth/Auth"
 
@@ -43,7 +44,10 @@ const Navbar = () => {
                     </div>
                 </div>
                 {/* //import hamburger here */}
-                {isLogged ? <HamburgerMenu /> : <Link className="btn btn-primary" to="/login" role="button">sign in</Link>}
+                <div>
+                    {isLogged ? <></> : <RouterLink className="btn btn-link" to="/login" role="button">Login</RouterLink>}
+                    {isLogged ? <HamburgerMenu /> : <RouterLink className="btn btn-primary" to="/register" role="button">sign in</RouterLink>}
+                </div>
             </nav>
         </>
     )

@@ -1,6 +1,7 @@
 import Cookies from "js-cookie"
 import { getLoggedUserInfo, isValidToken } from "../Api/ApiAuth"
 import { LoggedUserInfo } from "../Api/Interfaces"
+import { redirect, useNavigate } from "react-router-dom"
 
 export interface SpliToken {
     payload: string
@@ -19,6 +20,16 @@ export const getStoredToken = (): string => {
     const token_signature = Cookies.get("token_signature") ? Cookies.get("token_signature") : ""
     const token = token_payload + '.' + token_signature
     return token
+}
+
+export const removeStoredToken = (): boolean => {
+    try {
+        localStorage.removeItem("token_payload")
+        Cookies.remove("token_signature")
+        return true
+    } catch (error) {
+        return false
+    }
 }
 
 export const isStoredToken = (): boolean => {

@@ -13,6 +13,7 @@ import UserServices from './pages/UserServices.tsx';
 import ChangePasswordPage from './pages/ChangePasswordPage.tsx';
 import PrivateAuthProvider from './Auth/PrivateAuthProvider.tsx';
 import TestPage from './pages/TestPage.tsx';
+import RequestApiAccessPage from './pages/RequestApiAccessPage.tsx';
 const router = createBrowserRouter([
     {
         element: <PrivateAuthProvider />,
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: "/api/:id",
                 element: <ApiInfoPage />,
+            },
+            {
+                path: "/api/:id/request-access",
+                element: <RequestApiAccessPage />
             },
             {
                 path: "/services",

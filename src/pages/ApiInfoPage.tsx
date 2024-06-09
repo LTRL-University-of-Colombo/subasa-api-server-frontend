@@ -1,15 +1,13 @@
 // import { useEffect } from 'react'
 import MinimulNavbar from '../components/MinimulNavbar'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getServiceByServiceId } from '../Api/ApiService'
 import { ApiServiceData } from '../Api/Interfaces'
-import FloatingCard from '../components/FloatingCard'
 
 const ApiInfoPage = () => {
     const params = useParams()
     const apiId = Number(params.id)
-    const [temp, settemp] = useState(true)
     if (isNaN(apiId)) {
         throw new Error("Invalid ID")
     }
@@ -40,8 +38,6 @@ const ApiInfoPage = () => {
 
     return (
         <>
-            <FloatingCard hidden={temp} />
-            <button onClick={() => { settemp(!temp) }}>dist</button>
             <MinimulNavbar />
             <div className='container'>
                 <div className="row">
@@ -58,7 +54,8 @@ const ApiInfoPage = () => {
                         </ul>
 
                         <div className="pt-3 d-grid mt-auto">
-                            <button className='btn btn-primary'>Apply for access</button>
+                            <Link to={"request-access"} className='btn btn-primary' role='button'>Apply for access</Link>
+                            {/* <button className='btn btn-primary'>Apply for access</button> */}
                         </div>
                     </div>
 
@@ -66,7 +63,7 @@ const ApiInfoPage = () => {
                         <section className='pt-4'>
                             <h2>{serviceInfo.name}</h2>
                             <p>You can test subasa {serviceInfo.name}. Visit <a href="http://stt.subasa.lk">stt.subasa.lk↗</a></p>
-                            <button className='btn btn-primary btn-sm'>Apply for access</button>
+                            <Link to={"request-access"} className='btn btn-primary btn-sm' role='button'>Apply for access</Link>
                         </section>
                         <section className='pt-4'>
                             <h3>Subasa STT API</h3>

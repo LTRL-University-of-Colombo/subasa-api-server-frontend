@@ -1,6 +1,6 @@
 import axiosInstance from "./AxiosConfig"
 import Cookies from 'js-cookie'
-import { LoginPayload } from "./Interfaces"
+import { LoggedUserInfo, LoginPayload, binaryResponse, signupPayload } from "./Interfaces"
 import { saveUserInfoLocalstorage, splitToken } from "../Auth/Auth"
 import { getLoggedUserInfo } from "./ApiAuth"
 
@@ -39,4 +39,17 @@ export const userLogin = async ({ email, password }: LoginPayload) => {
         }
     }
     return response
+}
+
+
+export const userSignup = async (payload: signupPayload): Promise<binaryResponse<LoggedUserInfo>> => {
+    try {
+        const response = await axiosInstance.post("auth/create-user", payload)
+        if (response.status === 201) {
+            return { result: true, message: "User created successfully!", ResponseData: response.data as LoggedUserInfo } as binaryResponse<LoggedUserInfo>
+        }
+        return { result: false, message: response.data, ResponseData: undefined } as binaryResponse<LoggedUserInfo>
+    } catch (error) {
+        return { result: false, message: "Unexpected error!", ResponseData: undefined } as binaryResponse<LoggedUserInfo>
+    }
 }

@@ -4,13 +4,17 @@ import { LoginPayload } from '../Api/Interfaces';
 import { userLogin } from '../Api/ApiUser';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginForm = () => {
     const navigate = useNavigate()
 
+    const [isWaiting, setIsWaiting] = useState(false)
     const [loginErrorMessage, setLoginErrorMessage] = useState('')
+
     const handleLogin = async (values: LoginPayload) => {
+        setIsWaiting(true)
+        setLoginErrorMessage("")
         try {
             const response: AxiosResponse = await userLogin(values)
             if (response.status == 200) {
@@ -23,6 +27,7 @@ const LoginForm = () => {
                 setLoginErrorMessage("Unknown error occured!")
             }
         }
+        setIsWaiting(false)
     }
 
     const loginFormValidationSchema = Yup.object().shape({
@@ -62,7 +67,13 @@ const LoginForm = () => {
                             <Field className="form-control" id="exampleInputPassword1" name="password" type="password" />
                             {touched.password && errors.password && <div id="emailHelp" className="form-text text-danger">{errors.password}</div>}
                         </div>
-                        <button type="submit" className="btn btn-primary mt-3">Login</button>
+                        <button type="submit" className="btn btn-primary mt-3" disabled={isWaiting}>
+                            <span className={`spinner-border spinner-border-sm ${isWaiting ? "" : "d-none"}`} role="status" aria-hidden="true"></span>
+                            Login
+                        </button>
+                        <div className='text-center mt-3'>
+                            <small>New user? Click here <Link to={"/register"}>Sign up</Link></small>
+                        </div>
                     </Form>
                 )}
             </Formik>

@@ -14,7 +14,7 @@ const ApiCard = ({serviceData}: Props) => {
                     <img src="src/assets/homepage_cover.png" className="card-img" alt="..." />
                     <div className="mt-3"><small className="card-text">{serviceData.description}</small></div>
                     <div className="d-grid mt-3" >
-                        <Link className="btn btn-primary btn-sm" to={"/api"} type="button">Read More</Link>
+                        <Link className="btn btn-primary btn-sm" to={`/api/${serviceData.id}`} type="button">Read More</Link>
                     </div>
                 </div>
             </div>

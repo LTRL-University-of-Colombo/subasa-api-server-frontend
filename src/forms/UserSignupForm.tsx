@@ -1,10 +1,35 @@
 import { Formik, Form, Field } from "formik"
 import * as yup from 'yup'
+import { signupPayload } from "../Api/Interfaces"
+import { userSignup } from "../Api/ApiUser"
+import { useState } from "react"
+
+interface alert {
+    type: string
+    message: string
+}
 
 const UserSignupForm = () => {
+    const [alertState, setAlertState] = useState<alert | undefined>(undefined)
+    const [waiting, setWaiting] = useState<boolean>(false)
+
+    const handleSignUp = async (payload: signupPayload) => {
+        setWaiting(true)
+        setAlertState(undefined)
+        const response = await userSignup(payload)
+        if (response.result) {
+            setAlertState({ type: "danger", message: "Unable to create a user" })
+            // user created
+        } else {
+            setAlertState({ type: "success", message: "Unable to create a user" })
+            // failed to create user
+        }
+        setWaiting(false)
+    }
+
+
     const userSingupFormValidationSchema = yup.object().shape({
-        firstName: yup.string().required('Required'),
-        lastName: yup.string().required('Required'),
+        username: yup.string().required('Required'),
         email: yup.string().email('Invalid email').required('Required'),
         password: yup.string().required('Required').min(8, 'At least 8 characters required.'),
         password2: yup.string().required('Required').min(8, 'At least 8 characters required.').oneOf([yup.ref('password')], 'Passwords must match'),
@@ -14,32 +39,37 @@ const UserSignupForm = () => {
         <>
             <Formik
                 initialValues={{
-                    firstName: '',
-                    lastName: '',
+                    username: '',
                     email: '',
                     password: '',
                     password2: ''
                 }}
                 validationSchema={userSingupFormValidationSchema}
                 onSubmit={values => {
-                    console.log(values);
+                    const payload: signupPayload = {
+                        username: values.username,
+                        email: values.email,
+                        password: values.password,
+                        scopes: "regular_user"
+                    }
+                    handleSignUp(payload)
                 }}
             >
                 {({ errors, touched }) => (
                     <Form className="card p-4" style={{ width: "450px" }}>
-                        <h2>Sign Up</h2>
+                        {alertState ?
+                            <div className="alert alert-danger" role="alert">
+                                A simple danger alert—check it out!
+                            </div>
+                            :
+                            <></>
+                        }
 
-                        <div className="row mt-3">
-                            <div className="mb-3 col">
-                                <label className="form-label">First Name</label>
-                                <Field className="form-control" id="firstName" name="firstName" />
-                                {touched.firstName && errors.firstName && <div id="firstName-error" className="form-text text-danger">{errors.firstName}</div>}
-                            </div>
-                            <div className="mb-3 col">
-                                <label className="form-label">Last Name</label>
-                                <Field className="form-control" id="lastName" name="lastName" />
-                                {touched.lastName && errors.lastName && <div id="lastName-error" className="form-text text-danger">{errors.lastName}</div>}
-                            </div>
+                        <h2>Sign Up</h2>
+                        <div className="mb-3">
+                            <label className="form-label">User Name</label>
+                            <Field className="form-control" id="username" name="username" />
+                            {touched.username && errors.username && <div id="username-error" className="form-text text-danger">{errors.username}</div>}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Email</label>
@@ -58,7 +88,10 @@ const UserSignupForm = () => {
                                 {touched.password2 && errors.password2 && <div id="password2-error" className="form-text text-danger">{errors.password2}</div>}
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-primary mt-3">Sign In</button>
+                        <button type="submit" className="btn btn-primary mt-3" disabled={waiting}>
+                            <span className={`spinner-border spinner-border-sm ${waiting ? "" : "d-none"}`} role="status" aria-hidden="true"></span>
+                            Sign In
+                        </button>
                     </Form>
                 )}
             </Formik>

@@ -1,8 +1,19 @@
-import { Params } from "react-router-dom"
-
 export interface LoginPayload {
     email: string,
     password: string
+}
+
+export interface binaryResponse<T> {
+    result: boolean
+    message: string
+    ResponseData: T | undefined
+}
+
+export interface signupPayload {
+    username: string
+    email: string
+    password: string
+    scopes: string
 }
 
 export interface LoggedUserInfo {
