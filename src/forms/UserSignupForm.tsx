@@ -1,29 +1,36 @@
 import { Formik, Form, Field } from "formik"
 import * as yup from 'yup'
-import { signupPayload } from "../Api/Interfaces"
+import { signupPayload, Alert } from "../Api/Interfaces"
 import { userSignup } from "../Api/ApiUser"
 import { useState } from "react"
-
-interface alert {
-    type: string
-    message: string
-}
+import { AxiosError, AxiosResponse } from "axios"
+import { Link } from "react-router-dom"
 
 const UserSignupForm = () => {
-    const [alertState, setAlertState] = useState<alert | undefined>(undefined)
+    const [alertState, setAlertState] = useState<Alert | undefined>(undefined)
     const [waiting, setWaiting] = useState<boolean>(false)
 
     const handleSignUp = async (payload: signupPayload) => {
-        setWaiting(true)
-        setAlertState(undefined)
-        const response = await userSignup(payload)
-        if (response.result) {
-            setAlertState({ type: "danger", message: "Unable to create a user" })
-            // user created
-        } else {
-            setAlertState({ type: "success", message: "Unable to create a user" })
-            // failed to create user
+        setWaiting(true) //loading animation on button
+        setAlertState(undefined) //set alert
+
+        try {
+            const response: AxiosResponse = await userSignup(payload)
+            console.log("this is it ", response.status)
+            if (response.status === 201) {
+                setAlertState({ type: "success", message: "User created succesfully. Now you can log in to the system." } as Alert)
+                // user created
+            } else {
+                setAlertState({ type: "danger", message: "Unable to create a user" } as Alert)
+                // failed to create user
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                setAlertState({ type: "danger", message: error.response?.data.detail } as Alert)
+                console.log(error.response?.data.detail)
+            }
         }
+
         setWaiting(false)
     }
 
@@ -57,9 +64,9 @@ const UserSignupForm = () => {
             >
                 {({ errors, touched }) => (
                     <Form className="card p-4" style={{ width: "450px" }}>
-                        {alertState ?
-                            <div className="alert alert-danger" role="alert">
-                                A simple danger alert—check it out!
+                        {alertState && alertState.type === "danger" ?
+                            <div className={`alert alert-danger`} role="alert">
+                                {alertState.message}
                             </div>
                             :
                             <></>
@@ -88,6 +95,14 @@ const UserSignupForm = () => {
                                 {touched.password2 && errors.password2 && <div id="password2-error" className="form-text text-danger">{errors.password2}</div>}
                             </div>
                         </div>
+                        {alertState && alertState.type === "success" ?
+                            <div className={`alert alert-success`} role="alert">
+                                {alertState.message}
+                                {<Link to={"/login"}> Click here to login</Link>}
+                            </div>
+                            :
+                            <></>
+                        }
                         <button type="submit" className="btn btn-primary mt-3" disabled={waiting}>
                             <span className={`spinner-border spinner-border-sm ${waiting ? "" : "d-none"}`} role="status" aria-hidden="true"></span>
                             Sign In

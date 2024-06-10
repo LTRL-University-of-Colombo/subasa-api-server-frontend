@@ -20,10 +20,16 @@ export interface LoggedUserInfo {
     id: number
     username: string
     email: string,
+    temp:any
 }
 
 export interface ApiServiceData {
     name: string,
     description: string,
     id: number
+}
+
+export interface Alert {
+    type: string
+    message: string
 }

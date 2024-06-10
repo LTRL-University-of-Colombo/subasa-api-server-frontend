@@ -1,7 +1,6 @@
 import Cookies from "js-cookie"
 import { getLoggedUserInfo, isValidToken } from "../Api/ApiAuth"
 import { LoggedUserInfo } from "../Api/Interfaces"
-import { redirect, useNavigate } from "react-router-dom"
 
 export interface SpliToken {
     payload: string
@@ -13,6 +12,16 @@ export const splitToken = (token: string): SpliToken => {
     const token_payload = split_token[0] + '.' + split_token[1]
     const token_signature = split_token[2]
     return { payload: token_payload, signature: token_signature }
+}
+
+export const saveToken = (splitToken: SpliToken): boolean => {
+    try {
+        localStorage.setItem("token_payload", splitToken.payload);
+        Cookies.set("token_signature", splitToken.signature)
+        return true
+    } catch {
+        return false
+    }
 }
 
 export const getStoredToken = (): string => {
@@ -58,7 +67,8 @@ export const getSavedUserInfoFromLocalstorage = (): LoggedUserInfo | null => {
         return {
             id: Number(localStorage.getItem("id") ?? 0),
             username: localStorage.getItem("username") ?? "",
-            email: localStorage.getItem("email") ?? ""
+            email: localStorage.getItem("email") ?? "",
+            temp:undefined
         }
     } catch (error) {
         console.log("Failed to retriew data from local storage.")
