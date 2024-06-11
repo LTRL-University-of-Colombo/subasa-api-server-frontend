@@ -67,8 +67,7 @@ export const getSavedUserInfoFromLocalstorage = (): LoggedUserInfo | null => {
         return {
             id: Number(localStorage.getItem("id") ?? 0),
             username: localStorage.getItem("username") ?? "",
-            email: localStorage.getItem("email") ?? "",
-            temp:undefined
+            email: localStorage.getItem("email") ?? ""
         }
     } catch (error) {
         console.log("Failed to retriew data from local storage.")

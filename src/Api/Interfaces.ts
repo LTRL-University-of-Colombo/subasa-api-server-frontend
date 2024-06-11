@@ -19,8 +19,7 @@ export interface signupPayload {
 export interface LoggedUserInfo {
     id: number
     username: string
-    email: string,
-    temp:any
+    email: string
 }
 
 export interface ApiServiceData {

@@ -1,6 +1,5 @@
 import axiosInstance from "./AxiosConfig"
-import Cookies from 'js-cookie'
-import { LoggedUserInfo, LoginPayload, binaryResponse, signupPayload } from "./Interfaces"
+import { LoginPayload, signupPayload } from "./Interfaces"
 import { saveToken, saveUserInfoLocalstorage, splitToken } from "../Auth/Auth"
 import { getLoggedUserInfo } from "./ApiAuth"
 
