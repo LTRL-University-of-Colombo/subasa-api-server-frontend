@@ -24,11 +24,15 @@ export const saveToken = (splitToken: SpliToken): boolean => {
     }
 }
 
-export const getStoredToken = (): string => {
-    const token_payload = localStorage.getItem("token_payload") ? localStorage.getItem("token_payload") : ""
-    const token_signature = Cookies.get("token_signature") ? Cookies.get("token_signature") : ""
-    const token = token_payload + '.' + token_signature
-    return token
+export const getStoredToken = (): string | null => {
+    try {
+        const token_payload = localStorage.getItem("token_payload") ? localStorage.getItem("token_payload") : ""
+        const token_signature = Cookies.get("token_signature") ? Cookies.get("token_signature") : ""
+        const token = token_payload + '.' + token_signature
+        return token
+    } catch {
+        return null
+    }
 }
 
 export const removeStoredToken = (): boolean => {
@@ -41,13 +45,6 @@ export const removeStoredToken = (): boolean => {
     }
 }
 
-export const isStoredToken = (): boolean => {
-    const token_payload = localStorage.getItem("token_payload") ? localStorage.getItem("token_payload") : ""
-    const token_signature = Cookies.get("token_signature") ? Cookies.get("token_signature") : ""
-    if (token_payload == "" || token_signature == "")
-        return false
-    return true
-}
 
 export const saveUserInfoLocalstorage = (userData: LoggedUserInfo): boolean => {
     try {
@@ -77,9 +74,8 @@ export const getSavedUserInfoFromLocalstorage = (): LoggedUserInfo | null => {
 
 export const useAuth = async (): Promise<boolean> => {
     // const user = localStorage.getItem("Token")
-    if (isStoredToken()) {
+    if (getStoredToken()) {
         const validToken = await isValidToken()
-
         const currentUser = await getLoggedUserInfo()
         if (currentUser)
             saveUserInfoLocalstorage(currentUser)

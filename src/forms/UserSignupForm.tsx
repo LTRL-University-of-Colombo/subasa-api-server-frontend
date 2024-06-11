@@ -27,7 +27,6 @@ const UserSignupForm = () => {
         } catch (error) {
             if (error instanceof AxiosError) {
                 setAlertState({ type: "danger", message: error.response?.data.detail } as Alert)
-                console.log(error.response?.data.detail)
             }
         }
 

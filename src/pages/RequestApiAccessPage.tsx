@@ -2,8 +2,11 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getServiceByServiceId } from '../Api/ApiService'
-import { ApiServiceData, Alert } from '../Api/Interfaces'
+import { ApiServiceData, Alert, BinaryResponse } from '../Api/Interfaces'
 import PageLoadSpinner from '../components/PageLoadSpinner'
+import { getApiAccessRequest, sendApiAccessRequest } from '../Api/ApiUser'
+import { AxiosError } from 'axios'
+import PrivateAuthProvider from '../Auth/PrivateAuthProvider'
 
 const RequestApiAccessPage = () => {
     const params = useParams()
@@ -13,35 +16,65 @@ const RequestApiAccessPage = () => {
     }
 
     // hooks to hold service info
+    const [pageLoadSpinner, setPageLoadSpinner] = useState(true)
     const [isService, setIsService] = useState<boolean>(true)
     const [serviceInfo, setServiceInfo] = useState<ApiServiceData>({} as ApiServiceData)
     const [alertState, setAlertState] = useState<Alert | undefined>(undefined)
+    const [requestState, setRequestState] = useState(false) //true if req already sent, else falese
     const [waiting, setWaiting] = useState<boolean>(false)
 
-    useEffect(() => {
-        // const rightSection = document.getElementById("right-section")
-        // rightSection?.addEventListener("scroll", () => {
+    const loadApiserviceData = async (id: number) => {
+        const service = await getServiceByServiceId(id)
+        if (!service) {
+            setIsService(false)
+        }
+        else {
+            setIsService(true)
+            setServiceInfo(service)
+        }
+    }
 
-        // })
-        const loadApiserviceData = async (id: number) => {
-            const service = await getServiceByServiceId(id)
-            if (!service) {
-                setIsService(false)
+    const fetchRequestStatus = async () => {
+        try {
+            const request = await getApiAccessRequest(apiId)
+            console.log("request code: ", request.status)
+            if (request.status === 200) {
+                setRequestState(false)
             }
-            else {
-                setIsService(true)
-                setServiceInfo(service)
+        } catch (error) {
+            setRequestState(true)
+            if (error instanceof AxiosError)
+                setAlertState({ type: "info", message: error.response?.data.detail })
+        }
+    }
+
+    useEffect(() => {
+        loadApiserviceData(apiId)
+        fetchRequestStatus()
+        setPageLoadSpinner(false)
+    }, [])
+
+    const handleSendRequest = async () => {
+        setWaiting(true)
+        try {
+            const response = await sendApiAccessRequest(apiId)
+            if (response.status === 200) {
+                // request sent
+                setAlertState({ type: "success", message: "Your request sent to admins." } as Alert)
+                setRequestState(true)
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                //  thre is a error
+                setAlertState({ type: "danger", message: error.response?.data.detail } as Alert)
             }
         }
-        loadApiserviceData(apiId)
-        console.log("is service: ", isService)
-        console.log("service info: ", serviceInfo.description)
-
-    }, [])
+        setWaiting(false)
+    }
 
     return (
         <>
-            <PageLoadSpinner />
+            <PageLoadSpinner active={pageLoadSpinner} />
             <div className='container'>
                 <div className="card mt-5 p-4">
                     {
@@ -58,11 +91,11 @@ const RequestApiAccessPage = () => {
                                     <h6>by applying the service you will approve terms and conditions</h6>
                                 </div>
                                 <div className='mt-4'>
-                                    <button className='btn btn-primary' disabled={waiting}>
+                                    <button className='btn btn-primary' onClick={handleSendRequest} disabled={waiting || requestState}>
                                         <span className={`spinner-border spinner-border-sm ${waiting ? "" : "d-none"}`} aria-hidden="true"></span>
                                         Apply for access
                                     </button>
-                                    <button className='btn btn-link' onClick={() => { window.history.go(-1); return false; }}>Cancel and Go back</button>
+                                    <button className='btn btn-link' onClick={() => { window.history.go(-1); return false; }}>{requestState ? "" : "Cancel and "}Go back</button>
                                 </div>
                             </>
                             :

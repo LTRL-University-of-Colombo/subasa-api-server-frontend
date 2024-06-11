@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     config => {
         const token = getStoredToken()
-        if (token !== undefined) {
+        if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
         return config;
@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use(
     response => response,
     error => {
         if (error.response && error.response.status === 401) {
-            handleTokenExpiration();
+            // handleTokenExpiration();
         }
         return Promise.reject(error);
     }

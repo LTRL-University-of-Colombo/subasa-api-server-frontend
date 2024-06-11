@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react"
-import { Link } from 'react-scroll'
-import { Link as RouterLink } from "react-router-dom"
+import { Link as ScrollLink } from 'react-scroll'
+import { Link } from "react-router-dom"
 import HamburgerMenu from "./HamburgerMenu"
 import { useAuth } from "../Auth/Auth"
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false)
-    const [isLogged, setIsLogged] = useState(false)
+    const [isLogged, setIsLogged] = useState<boolean | undefined>(undefined)
 
-    // const loggingState = await useAuth()
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 200) {
@@ -20,12 +19,13 @@ const Navbar = () => {
         }
         document.addEventListener("scroll", handleScroll)
 
-        const getLoggingState = async () => {
+
+        const getLoggingState = async() => {
             try {
                 const loggingState = await useAuth()
                 setIsLogged(loggingState)
             } catch (error) {
-                console.log(error)
+                setIsLogged(false)
             }
         }
         getLoggingState()
@@ -38,16 +38,21 @@ const Navbar = () => {
                 <div className="d-flex align-items-center">
                     <div><img src={`src/assets/${isScrolled ? 'subasa_new_black.png' : 'subasa_new_white.png'}`} alt="" style={{ height: "60px" }} /></div>
                     <div className="d-flex gap-5 px-5">
-                        <Link to="section_1-heading" offset={-80} role="button" className="text-primary" smooth>Scroll link</Link>
-                        <Link to="section_2-heading" offset={-80} role="button" className="text-primary" smooth>Scroll link</Link>
-                        <Link to="section_3-heading" offset={-80} role="button" className="text-primary" smooth>Scroll link</Link>
+                        <ScrollLink to="section_1-heading" offset={-80} role="button" className="text-primary" smooth>Scroll link</ScrollLink>
+                        <ScrollLink to="section_2-heading" offset={-80} role="button" className="text-primary" smooth>Scroll link</ScrollLink>
+                        <ScrollLink to="section_3-heading" offset={-80} role="button" className="text-primary" smooth>Scroll link</ScrollLink>
                     </div>
                 </div>
                 {/* //import hamburger here */}
-                <div>
-                    {isLogged ? <></> : <RouterLink className="btn btn-link" to="/login" role="button">Login</RouterLink>}
-                    {isLogged ? <HamburgerMenu /> : <RouterLink className="btn btn-primary" to="/register" role="button">sign in</RouterLink>}
-                </div>
+                {
+                    isLogged === undefined ?
+                        <></>
+                        :
+                        <div>
+                            {isLogged ? <></> : <Link className="btn btn-link" to="/login" role="button">Login</Link>}
+                            {isLogged ? <HamburgerMenu /> : <Link className="btn btn-primary" to="/register" role="button">sign in</Link>}
+                        </div>
+                }
             </nav>
         </>
     )

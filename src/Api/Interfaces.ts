@@ -3,10 +3,9 @@ export interface LoginPayload {
     password: string
 }
 
-export interface binaryResponse<T> {
+export interface BinaryResponse {
     result: boolean
     message: string
-    ResponseData: T | undefined
 }
 
 export interface signupPayload {

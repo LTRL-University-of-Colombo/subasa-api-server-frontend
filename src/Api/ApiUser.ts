@@ -1,6 +1,6 @@
 import axiosInstance from "./AxiosConfig"
 import { LoginPayload, signupPayload } from "./Interfaces"
-import { saveToken, saveUserInfoLocalstorage, splitToken } from "../Auth/Auth"
+import { getSavedUserInfoFromLocalstorage, saveToken, saveUserInfoLocalstorage, splitToken } from "../Auth/Auth"
 import { getLoggedUserInfo } from "./ApiAuth"
 
 
@@ -48,3 +48,36 @@ export const userSignup = async (payload: signupPayload) => {
         throw error
     }
 }
+
+export const getApiAccessRequest = async (apiId: number) => {
+    const user = getSavedUserInfoFromLocalstorage()
+    const params = {
+        user_id: user?.id,
+        api_service_id: apiId
+    }
+
+    try {
+        const response = axiosInstance.get("users/access-request", { params: params })
+        return response
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export const sendApiAccessRequest = async (apiId: number) => {
+    const user = getSavedUserInfoFromLocalstorage()
+    const payload = {
+        user_id: user?.id,
+        api_service_id: apiId,
+        status: ""
+    }
+
+    try {
+        const response = axiosInstance.post("users/access-request", payload)
+        return response
+    }
+    catch (error) {
+        throw error
+    }
+} 

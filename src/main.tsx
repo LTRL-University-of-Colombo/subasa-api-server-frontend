@@ -12,7 +12,6 @@ import OrgSingupForm from './forms/OrgSingupForm.tsx';
 import UserServices from './pages/UserServices.tsx';
 import ChangePasswordPage from './pages/ChangePasswordPage.tsx';
 import PrivateAuthProvider from './Auth/PrivateAuthProvider.tsx';
-import TestPage from './pages/TestPage.tsx';
 import RequestApiAccessPage from './pages/RequestApiAccessPage.tsx';
 const router = createBrowserRouter([
     {
@@ -61,7 +60,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/test",
-        element: <TestPage />
+        element: <PrivateAuthProvider />
     }
 ])
 

@@ -43,7 +43,7 @@ const ApiInfoPage = () => {
                 <div className="row">
                     <div className='col-3 d-flex flex-column border p-3 py-3 apiInfoPage-height' id='left-section'>
                         <div>
-                            <small className='link' style={{ cursor: "pointer" }}> ⬅ Back to homepage</small>
+                            <small className='link' style={{ cursor: "pointer" }} onClick={() => { window.history.go(-1) }}> ⬅ Back</small>
                         </div>
                         <h5 className='pt-5'>On this page</h5>
 
