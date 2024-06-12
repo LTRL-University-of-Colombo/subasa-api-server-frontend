@@ -38,9 +38,7 @@ const HomePage = () => {
             </div>
 
             <MainPageSection sectionHeading="Section 1 heading" id="section_1">
-                {apiServices.map((service: ApiServiceData) => (
-                    <div className="col-4"><ApiCard serviceData={service} /></div>
-                ))}
+                {apiServices.map((service: ApiServiceData) => <div className="col-4" key={service.id}><ApiCard serviceData={service} /></div>)}
             </MainPageSection>
 
             {/* <MainPageSection sectionHeading="Section 2 heading" id="section_2">

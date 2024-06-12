@@ -3,12 +3,13 @@ import { ApiServiceData } from "../Api/Interfaces"
 
 interface Props {
     serviceData: ApiServiceData
+    tempkey?: number | null | undefined
 }
 
-const ApiCard = ({serviceData}: Props) => {
+const ApiCard = ({ serviceData, tempkey}: Props) => {
     return (
         <>
-            <div className="card">
+            <div className="card" key={tempkey}>
                 <h5 className="card-header">{serviceData.name}</h5>
                 <div className="card-body">
                     <img src="src/assets/homepage_cover.png" className="card-img" alt="..." />

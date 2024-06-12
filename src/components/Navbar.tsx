@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Link as ScrollLink } from 'react-scroll'
 import { Link } from "react-router-dom"
 import HamburgerMenu from "./HamburgerMenu"
-import { useAuth } from "../Auth/Auth"
+import { useAuth, useMinAuth } from "../Auth/Auth"
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -19,15 +19,19 @@ const Navbar = () => {
         }
         document.addEventListener("scroll", handleScroll)
 
-
-        const getLoggingState = async() => {
-            try {
-                const loggingState = await useAuth()
-                setIsLogged(loggingState)
-            } catch (error) {
-                setIsLogged(false)
-            }
+        const getLoggingState = () => {
+            const loggingSatate = useMinAuth()
+            setIsLogged(loggingSatate)
         }
+
+        // const getLoggingState = async() => {
+        //     try {
+        //         const loggingState = await useAuth()
+        //         setIsLogged(loggingState)
+        //     } catch (error) {
+        //         setIsLogged(false)
+        //     }
+        // }
         getLoggingState()
 
     }, [])

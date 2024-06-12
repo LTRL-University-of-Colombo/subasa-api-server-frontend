@@ -13,14 +13,14 @@ import UserServices from './pages/UserServices.tsx';
 import ChangePasswordPage from './pages/ChangePasswordPage.tsx';
 import PrivateAuthProvider from './Auth/PrivateAuthProvider.tsx';
 import RequestApiAccessPage from './pages/RequestApiAccessPage.tsx';
+import AdminRootPage from './pages/AdminRootPage.tsx';
+import AdminRequests from './components/AdminRequests.tsx';
+import AdminUsers from './components/AdminUsers.tsx';
+import AdminApiInfo from './components/AdminApiInfo.tsx';
 const router = createBrowserRouter([
     {
         element: <PrivateAuthProvider />,
         children: [
-            {
-                path: "/api/:id",
-                element: <ApiInfoPage />,
-            },
             {
                 path: "/api/:id/request-access",
                 element: <RequestApiAccessPage />
@@ -40,6 +40,10 @@ const router = createBrowserRouter([
         element: <HomePage />
     },
     {
+        path: "/api/:id",
+        element: <ApiInfoPage />,
+    },
+    {
         path: "/login",
         element: <LoginPage />
     },
@@ -55,12 +59,38 @@ const router = createBrowserRouter([
             {
                 path: "organization",
                 element: <OrgSingupForm />
-            }
+            },
         ]
     },
     {
         path: "/test",
-        element: <PrivateAuthProvider />
+        element: <AdminRootPage />,
+        children: [
+            {
+                path: "users",
+                element: <AdminUsers />
+            },
+            {
+                path: "requests",
+                element: <AdminRequests />
+            },
+            {
+                path: "api",
+                element: <SignUpPage />
+            },
+            {
+                path: "users/info",
+                element: <SignUpPage />
+            },
+            {
+                path: "requests/info",
+                element: <SignUpPage />
+            },
+            {
+                path: "api/info",
+                element: <AdminApiInfo />
+            },
+        ]
     }
 ])
 

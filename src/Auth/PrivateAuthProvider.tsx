@@ -1,42 +1,65 @@
-import { Outlet, Navigate } from 'react-router-dom'
-import { isValidToken, getLoggedUserInfo } from '../Api/ApiAuth'
-import { getStoredToken, saveUserInfoLocalstorage } from './Auth'
+import { Outlet, Link } from 'react-router-dom'
+import { getSessionState, useMinAuth } from './Auth'
 import { useState, useEffect } from 'react'
+import PageLoadSpinner from '../components/PageLoadSpinner'
 
 const PrivateAuthProvider = () => {
-    const [logged, setLogged] = useState<boolean>(true)
+    const [logged, setLogged] = useState<boolean>(false)
+    const [waiting, setWaiting] = useState<boolean>(true)
 
-
-    const useAuth = async () => {
-        console.log("async called")
-        if (getStoredToken()) {
-            const validToken = await isValidToken()
-            console.log("valid Token: ", validToken)
-
-            const currentUser = await getLoggedUserInfo()
-            if (currentUser)
-                saveUserInfoLocalstorage(currentUser)
-            return validToken ? true : false
-        }
-        else {
-            console.log("no stored token")
-            return false
-        }
-    }
-
+    const isLoggedBefore = getSessionState()
 
     useEffect(() => {
-        const getAuth = async () => {
-            const auth_result = await useAuth()
-            console.log("authresult: ", auth_result)
+        // const getAuth = async () => {
+        //     setWaiting(true)
+        //     try {
+        //         const auth_result = await useAuth()
+        //         console.log("get Auth called")
+        //         console.log("authresult: ", auth_result)
+        //         setLogged(auth_result)
+        //     } catch (error) {
+        //         setLogged(false)
+        //     }
+        //     setWaiting(false)
+
+        // }
+        const getAuth = () => {
+            setWaiting(true)
+            const auth_result = useMinAuth()
             setLogged(auth_result)
+            setWaiting(false)
         }
+
         getAuth()
     }, [])
 
     return (
         <>
-            {logged ? <Outlet /> : <Navigate to={"/login"} />}
+            {waiting ? <PageLoadSpinner active /> :
+                logged ?
+                    <Outlet />
+                    :
+                    <>
+                        <div className='authProvider-overlay'>
+                            <div className="card p-4">
+                                <h4>
+                                    {
+                                        isLoggedBefore ?
+                                            "Your session is end. Please login again."
+                                            :
+                                            "You need to Login to view this page"
+                                    }
+                                </h4>
+                                <div className='mt-3 d-flex gap-2 justify-content-center'>
+                                    <Link className='btn btn-primary' to={"/login"}>Login</Link>
+                                    <Link className='btn btn-secondary' to={"/register"}>Sign up</Link>
+                                </div>
+                                <div className='text-center mt-3'>or</div>
+                                <button className='btn btn-link' onClick={() => { window.history.go(-1); return false; }}>Go back</button>
+                            </div>
+                        </div>
+                    </>
+            }
         </>
     )
 }

@@ -25,26 +25,49 @@ export const saveToken = (splitToken: SpliToken): boolean => {
 }
 
 export const getStoredToken = (): string | null => {
-    try {
-        const token_payload = localStorage.getItem("token_payload") ? localStorage.getItem("token_payload") : ""
-        const token_signature = Cookies.get("token_signature") ? Cookies.get("token_signature") : ""
-        const token = token_payload + '.' + token_signature
-        return token
-    } catch {
+    const token_payload = localStorage.getItem("token_payload") ? localStorage.getItem("token_payload") : ""
+    const token_signature = Cookies.get("token_signature") ? Cookies.get("token_signature") : ""
+    console.log("token payload is: ", token_payload)
+    if (token_payload === "" || token_signature === "")
         return null
-    }
+
+    const token = token_payload + '.' + token_signature
+    return token
 }
 
 export const removeStoredToken = (): boolean => {
     try {
+        console.log("calleddddd")
         localStorage.removeItem("token_payload")
         Cookies.remove("token_signature")
+        console.log("after called: ", localStorage.getItem("token_payload"))
         return true
     } catch (error) {
         return false
     }
 }
 
+// redirect link
+export const setRedirectFrom = (url: string) => { //if logged: 1 else 0
+    localStorage.setItem("redirect_from", url)
+}
+
+export const getRedirectFrom = () => {
+    localStorage.getItem("redirect_from")
+}
+
+// sessio state
+export const setSessionState = (state: number) => { //if logged: 1 else 0
+    localStorage.setItem("session_state", `${state}`)
+}
+
+export const getSessionState = () => {
+    const stateStr = localStorage.getItem("session_state")
+    if (stateStr)
+        return parseInt(stateStr)
+    else
+        return 0
+}
 
 export const saveUserInfoLocalstorage = (userData: LoggedUserInfo): boolean => {
     try {
@@ -72,16 +95,55 @@ export const getSavedUserInfoFromLocalstorage = (): LoggedUserInfo | null => {
     }
 }
 
+// export const useAuth = async (): Promise<boolean> => {
+//     // const user = localStorage.getItem("Token")
+//     if (getStoredToken()) {
+//         try {
+//             const validToken = await isValidToken()
+//             if (!validToken)
+//                 return false
+//             const currentUser = await getLoggedUserInfo()
+//             if (!currentUser)
+//                 return false
+//             saveUserInfoLocalstorage(currentUser)
+//             return true
+//         } catch (error) {
+//             return false
+//         }
+//     }
+//     else {
+//         return false
+//     }
+// }
+
 export const useAuth = async (): Promise<boolean> => {
     // const user = localStorage.getItem("Token")
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Introducing 5-second delay
     if (getStoredToken()) {
-        const validToken = await isValidToken()
-        const currentUser = await getLoggedUserInfo()
-        if (currentUser)
+        try {
+            const validToken = await isValidToken()
+            if (!validToken)
+                return false
+            const currentUser = await getLoggedUserInfo()
+            if (!currentUser)
+                return false
             saveUserInfoLocalstorage(currentUser)
-        return validToken ? true : false
+            return true
+        } catch (error) {
+            return false
+        }
     }
     else {
+        return false
+    }
+}
+
+export const useMinAuth = (): boolean => { // Introducing 5-second delay
+    const token = getStoredToken()
+    console.log("from min auth, token is: ", token)
+    if (token) {
+        return true
+    } {
         return false
     }
 }

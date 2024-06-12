@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getStoredToken } from '../Auth/Auth';
+import { getStoredToken, removeStoredToken } from '../Auth/Auth';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use(
     response => response,
     error => {
         if (error.response && error.response.status === 401) {
-            // handleTokenExpiration();
+            handleTokenExpiration();
         }
         return Promise.reject(error);
     }
@@ -32,8 +32,8 @@ axiosInstance.interceptors.response.use(
 // handle token expiration
 const handleTokenExpiration = (): void => {
     console.log('Token expired. Redirecting to login...')
-    localStorage.removeItem('token')
-    window.location.href = '/login'
+    removeStoredToken()
+    // window.location.href = '/login'
 };
 
 export default axiosInstance
