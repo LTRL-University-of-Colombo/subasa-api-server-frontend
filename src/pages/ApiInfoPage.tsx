@@ -8,6 +8,7 @@ import { ApiServiceData } from '../Api/Interfaces'
 const ApiInfoPage = () => {
     const params = useParams()
     const apiId = Number(params.id)
+    console.log("this is id: ", apiId)
     if (isNaN(apiId)) {
         throw new Error("Invalid ID")
     }
@@ -31,8 +32,6 @@ const ApiInfoPage = () => {
             }
         }
         loadApiserviceData(apiId)
-        console.log("is service: ", isService)
-        console.log("service info: ", serviceInfo.description)
 
     }, [])
 

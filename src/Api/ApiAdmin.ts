@@ -151,3 +151,43 @@ export const createService = async (values: CreateApiServicePayload) => {
     })
     return response
 }
+
+
+export const updateService = async (values: CreateApiServicePayload, apiId: number) => {
+    const formData = new FormData()
+    formData.append('name', values.name)
+    formData.append('port', values.port.toString())
+    formData.append('description', values.description)
+    if (values.documentation) {
+        formData.append('documentation', values.documentation)
+    }
+
+    const response = await axiosInstance.put(`/admin/services/${apiId}`, values, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    })
+    return response
+}
+
+export const stopService = async (apiId: number) => {
+    try {
+        const response = await axiosInstance.patch(`admin/api/${apiId}/stop`)
+        if (response.status !== 200)
+            return false
+        return true
+    } catch (error) {
+        return true
+    }
+}
+
+export const startService = async (apiId: number) => {
+    try {
+        const response = await axiosInstance.patch(`admin/api/${apiId}/start`)
+        if (response.status !== 200)
+            return false
+        return true
+    } catch (error) {
+        return true
+    }
+}

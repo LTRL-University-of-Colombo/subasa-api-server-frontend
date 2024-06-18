@@ -20,6 +20,8 @@ import AdminUsers from './components/AdminUsers.tsx';
 import AdminApiInfo from './components/AdminApiInfo.tsx';
 import AdminUserInfo from './components/AdminUserInfo.tsx';
 import AddNewService from './components/AddNewService.tsx';
+import AdminApi from './components/AdminApi.tsx';
+import UpdateServiceForm from './forms/UpdateServiceForm.tsx';
 const router = createBrowserRouter([
     {
         element: <PrivateAuthProvider />,
@@ -78,7 +80,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "api",
-                        element: <SignUpPage />
+                        element: <AdminApi />
                     },
                     {
                         path: "users",
@@ -93,8 +95,12 @@ const router = createBrowserRouter([
                         element: <SignUpPage />
                     },
                     {
-                        path: "api/info",
+                        path: "api/:id",
                         element: <AdminApiInfo />
+                    },
+                    {
+                        path: "api/:id/edit",
+                        element: <UpdateServiceForm />
                     },
                     {
                         path: "new",

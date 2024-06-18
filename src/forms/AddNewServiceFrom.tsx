@@ -29,7 +29,7 @@ const AddNewServiceFrom = () => {
     }
 
 
-    const changePasswordFormValidationSchema = yup.object().shape({
+    const updateServiceFormValidationSchema = yup.object().shape({
         name: yup.string()
             .required('Service name is required'),
         port: yup.number()
@@ -56,7 +56,7 @@ const AddNewServiceFrom = () => {
                     description: '',
                     documentation: null
                 }}
-                validationSchema={changePasswordFormValidationSchema}
+                validationSchema={updateServiceFormValidationSchema}
                 onSubmit={values => {
                     console.log(values);
                     handleSubmit(values)

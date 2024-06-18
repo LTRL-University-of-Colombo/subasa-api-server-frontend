@@ -32,6 +32,9 @@ export interface ApiServiceData {
     name: string,
     description: string,
     id: number
+    port: number
+    documentation: string
+    is_active: boolean
 }
 
 export interface UserApiServiceData {
