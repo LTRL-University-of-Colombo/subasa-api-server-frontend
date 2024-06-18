@@ -1,30 +1,30 @@
 // import { useEffect } from 'react'
 import MinimulNavbar from '../components/MinimulNavbar'
-import { Link, NavLink, Outlet, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { getServiceByServiceId } from '../Api/ApiService'
-import { ApiServiceData } from '../Api/Interfaces'
+import { NavLink, Outlet } from 'react-router-dom'
+import { useEffect, } from 'react'
+// import { getServiceByServiceId } from '../Api/ApiService'
+// import { ApiServiceData } from '../Api/Interfaces'
 
 const AdminRootPage = () => {
 
-    const [isService, setIsService] = useState<boolean>(true)
-    const [serviceInfo, setServiceInfo] = useState<ApiServiceData>({} as ApiServiceData)
+    // const [isService, setIsService] = useState<boolean>(true)
+    // const [serviceInfo, setServiceInfo] = useState<ApiServiceData>({} as ApiServiceData)
 
     useEffect(() => {
         // const rightSection = document.getElementById("right-section")
         // rightSection?.addEventListener("scroll", () => {
 
         // })
-        const loadApiserviceData = async (id: number) => {
-            const service = await getServiceByServiceId(id)
-            if (!service) {
-                setIsService(false)
-            }
-            else {
-                setIsService(true)
-                setServiceInfo(service)
-            }
-        }
+        // const loadApiserviceData = async (id: number) => {
+        //     const service = await getServiceByServiceId(id)
+        //     if (!service) {
+        //         setIsService(false)
+        //     }
+        //     else {
+        //         setIsService(true)
+        //         setServiceInfo(service)
+        //     }
+        // }
         // loadApiserviceData(apiId)
 
     }, [])

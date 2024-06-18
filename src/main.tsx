@@ -12,11 +12,14 @@ import OrgSingupForm from './forms/OrgSingupForm.tsx';
 import UserServices from './pages/UserServices.tsx';
 import ChangePasswordPage from './pages/ChangePasswordPage.tsx';
 import PrivateAuthProvider from './Auth/PrivateAuthProvider.tsx';
+import AdminAuthProvider from './Auth/AdminAuthProvider.tsx';
 import RequestApiAccessPage from './pages/RequestApiAccessPage.tsx';
 import AdminRootPage from './pages/AdminRootPage.tsx';
 import AdminRequests from './components/AdminRequests.tsx';
 import AdminUsers from './components/AdminUsers.tsx';
 import AdminApiInfo from './components/AdminApiInfo.tsx';
+import AdminUserInfo from './components/AdminUserInfo.tsx';
+import AddNewService from './components/AddNewService.tsx';
 const router = createBrowserRouter([
     {
         element: <PrivateAuthProvider />,
@@ -63,33 +66,43 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: "/test",
-        element: <AdminRootPage />,
+        element: <AdminAuthProvider />,
         children: [
             {
-                path: "users",
-                element: <AdminUsers />
+                path: "/admin",
+                element: <AdminRootPage />,
+                children: [
+                    {
+                        path: "requests",
+                        element: <AdminRequests />
+                    },
+                    {
+                        path: "api",
+                        element: <SignUpPage />
+                    },
+                    {
+                        path: "users",
+                        element: <AdminUsers />
+                    },
+                    {
+                        path: "users/:id",
+                        element: <AdminUserInfo />
+                    },
+                    {
+                        path: "requests/info",
+                        element: <SignUpPage />
+                    },
+                    {
+                        path: "api/info",
+                        element: <AdminApiInfo />
+                    },
+                    {
+                        path: "new",
+                        element: <AddNewService />
+                    },
+                ]
             },
-            {
-                path: "requests",
-                element: <AdminRequests />
-            },
-            {
-                path: "api",
-                element: <SignUpPage />
-            },
-            {
-                path: "users/info",
-                element: <SignUpPage />
-            },
-            {
-                path: "requests/info",
-                element: <SignUpPage />
-            },
-            {
-                path: "api/info",
-                element: <AdminApiInfo />
-            },
+
         ]
     }
 ])

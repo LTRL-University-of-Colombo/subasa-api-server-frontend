@@ -2,11 +2,10 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getServiceByServiceId } from '../Api/ApiService'
-import { ApiServiceData, Alert, BinaryResponse } from '../Api/Interfaces'
+import { ApiServiceData, Alert } from '../Api/Interfaces'
 import PageLoadSpinner from '../components/PageLoadSpinner'
 import { getApiAccessRequest, sendApiAccessRequest } from '../Api/ApiUser'
 import { AxiosError } from 'axios'
-import PrivateAuthProvider from '../Auth/PrivateAuthProvider'
 
 const RequestApiAccessPage = () => {
     const params = useParams()

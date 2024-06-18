@@ -16,7 +16,7 @@ export const getAllServices = async (): Promise<ApiServiceData[] | null> => {
     }
 }
 
-export const getServiceByServiceId = async (apiId:number): Promise<ApiServiceData | undefined> => {
+export const getServiceByServiceId = async (apiId: number): Promise<ApiServiceData | undefined> => {
     try {
         const serviceInfo = await axiosInstance.get(`api/api-service/${apiId}`)
         if (serviceInfo) {

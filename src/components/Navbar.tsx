@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Link as ScrollLink } from 'react-scroll'
 import { Link } from "react-router-dom"
 import HamburgerMenu from "./HamburgerMenu"
-import { useAuth, useMinAuth } from "../Auth/Auth"
+import { useMinAuth } from "../Auth/Auth"
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false)

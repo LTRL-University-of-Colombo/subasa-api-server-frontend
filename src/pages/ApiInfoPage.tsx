@@ -4,7 +4,6 @@ import { Link, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getServiceByServiceId } from '../Api/ApiService'
 import { ApiServiceData } from '../Api/Interfaces'
-import PrivateAuthProvider from '../Auth/PrivateAuthProvider'
 
 const ApiInfoPage = () => {
     const params = useParams()

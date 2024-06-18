@@ -1,5 +1,5 @@
 import Cookies from "js-cookie"
-import { getLoggedUserInfo, isValidToken } from "../Api/ApiAuth"
+import { getLoggedUserInfo, isValidAdminToken, isValidToken } from "../Api/ApiAuth"
 import { LoggedUserInfo } from "../Api/Interfaces"
 
 export interface SpliToken {
@@ -128,6 +128,23 @@ export const useAuth = async (): Promise<boolean> => {
             if (!currentUser)
                 return false
             saveUserInfoLocalstorage(currentUser)
+            return true
+        } catch (error) {
+            return false
+        }
+    }
+    else {
+        return false
+    }
+}
+
+export const useAdminAuth = async (): Promise<boolean> => {
+    if (getStoredToken()) {
+        try {
+            const validToken = await isValidAdminToken()
+            if (!validToken)
+                return false
+            Cookies.set("isAdmin", "true")
             return true
         } catch (error) {
             return false

@@ -17,6 +17,21 @@ export const isValidToken = async (): Promise<boolean> => {
 
 }
 
+export const isValidAdminToken = async (): Promise<boolean> => {
+    try {
+        const response = await axiosInstance.get("auth/admin-token")
+        if (response.status == 200) {
+            return true
+        } else {
+            removeStoredToken()
+            return false
+        }
+    } catch (error) {
+        return false
+    }
+
+}
+
 export const getLoggedUserInfo = async (): Promise<LoggedUserInfo | null> => {
     try {
         const response = await axiosInstance.get("auth/current-user")
