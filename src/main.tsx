@@ -22,6 +22,7 @@ import AdminUserInfo from './components/AdminUserInfo.tsx';
 import AddNewService from './components/AddNewService.tsx';
 import AdminApi from './components/AdminApi.tsx';
 import UpdateServiceForm from './forms/UpdateServiceForm.tsx';
+import VoiceToText from './pages/ApiServiceInfoPages/VoiceToText.tsx';
 const router = createBrowserRouter([
     {
         element: <PrivateAuthProvider />,
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
     {
         path: "/api/:id",
         element: <ApiInfoPage />,
+    },
+    {
+        path: "/test2",
+        element: <VoiceToText />
     },
     {
         path: "/login",
